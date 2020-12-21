@@ -25,7 +25,7 @@
             <option> Select One </option>
             <option value="ca"> California </option>
             <option value="ny"> New York   </option>
-            <option value="tx"> Texas.     </option>
+            <option value="tx"> Texas      </option>
         </select><br>
         
         Select a County: <select id="county"></select><br>
@@ -33,6 +33,7 @@
         Desired Username: <input type="text" id="username" name="username"><br>
         
         Password:         <input type="password" id="password" name="password"><br>
+                          <span id="usernameError"></span><br>
         Password Again:   <input type="password" id="passwordAgain">
         
         <input type="submit" value="Sign Up!">
@@ -63,11 +64,30 @@
             let response = await fetch(url);
             let data = await response.json();
             // console.log(data)
-            for (let i=0; i < data.length; i++) {
-                $("#county").append(`<option> ${data[i].county} </option>`);
-            }
+            $("#county").html("<option> Select One </option>");
+            data.forEach ( function(i) {
+                $("#county").append(`<option> ${i.county} </option>`);
+            });
             
         }); // state
+        
+        $("#username").on("change", async function(){
+            
+            // alert ($("#username").val());
+            let username =$("#username").val();
+            let url = `https://cst336.herokuapp.com/projects/api/usernamesAPI.php?username=${username}`;
+            let response = await fetch(url);
+            let data = await response.json();
+            
+            if (data.available) {
+                $("#usernameError").html("Username available!");
+                $("#usernameError").css("color","green");
+            } else {
+                $("#usernameError").html("Username not available!");
+                $("#usernameError").css("color","red");
+            }
+            
+        }); // username
         
     </script>
     
