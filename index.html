@@ -9,7 +9,7 @@
 
 <body>
 <div class=row>
-<div class="col-md-6 offset-md-3"">
+<div class="col-md-6 offset-md-3">
 <div class="card border-dark">
 <div class="card-header border-info text-white bg-info">
 <b>Signup Form</b>
@@ -139,9 +139,9 @@
             }
             
          if ($("#password").val.length < 6 ){
-                 alert("Error: Password must contain at least six characters!");
-                 form.passwordLength();
-                 return false;
+                alert("Error: Password must contain at least six characters!");
+                form.passwordLength();
+                isValid = false;
              }
                 
             return isValid;
