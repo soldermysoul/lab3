@@ -40,7 +40,7 @@
 		
 								Password:         <input type="password" id="password" name="password"><br>
 												  <span id="usernameError"></span><br>
-								Password Again:   <input type="password" id="passwordAgain">
+								Password Again:   <input type="password" id="passwordAgain"  name="passwordAgain">
 												  <span id="passwordAgainError"></span> <br /><br>
 						  
 		
@@ -55,55 +55,71 @@
 </div>
 
     <script>
-    
-        var usernameAvailable = false;
+       $(document).ready(function(){
+			var isValid = false;
+			var password = "";
+			
+		});
+		
+	
+	
+	 ShowStates();
+	
+		async function ShowStates(){
+        
+        	
+			let getstates = `https://cst336.herokuapp.com/projects/api/state_abbrAPI.php`;
+			let stateslist = await fetch(getstates);
+			let statesdata = await stateslist.text();
+			var arr = jQuery.parseJSON(statesdata);
+
+			for (let i = 0; i < arr.length; i++) {
+		 		$("#state").append(`<option value="${arr[i]['usps']}">${arr[i]['state']} </option>`);
+			
+			}   
+        }
+        
         
         // Displaying City from API after typing a zip code
         $("#zip").on("change", async function(){
             
             // alert($("#zip").val());
             let zipCode = $("#zip").val();
-            let url = `https://itcdland.csumb.edu/~milara/ajax/cityInfoByZip.php?zip=${zipCode}`;
-            let response = await fetch(url);
-            let data = await response.json();
+            let urla = `https://itcdland.csumb.edu/~milara/ajax/cityInfoByZip.php?zip=${zipCode}`;
+            let responsea = await fetch(urla);
+            let dataa = await responsea.json();
             // console.log(data)
-            $("#city").html(data.city);
-            $("#latitude").html(data.latitude);
-            $("#longitude").html(data.longitude);
+            $("#city").html(dataa.city);
+            $("#latitude").html(dataa.latitude);
+            $("#longitude").html(dataa.longitude);
             
         }); // zip
         
         $("#state").on("change", async function(){
-            
-            // alert($("#state").val());
             let state = $("#state").val();
-            let url = `https://cst336.herokuapp.com/projects/api/state_abbrAPI.php?state=${state}`;
-            let response = await fetch(url);
-            let data = await response.json();
-             $("#state").html("<option> Select One </option>");
-            data.forEach ( function(i) {
-                $("#state").append(`<option> ${i.state} </option>`);
-                
-            let url = `https://itcdland.csumb.edu/~milara/ajax/countyList.php?state=${state}`;
-            let response = await fetch(url);
-            let data = await response.json();
-            // console.log(data)
+            let urlc = `https://itcdland.csumb.edu/~milara/ajax/countyList.php?state=` + state.toLowerCase();
+            let responsec = await fetch(urlc);
+            let datac = await responsec.json();
+            // console.log(datac)
             $("#county").html("<option> Select One </option>");
-            data.forEach ( function(i) {
+            datac.forEach ( function(i) {
                 $("#county").append(`<option> ${i.county} </option>`);
             });
             
-        }); // state
+       	  });
         
-        $("#username").on("change", async function(){
+     	
+        
+        	$("#username").on("change", async function(){
             
             // alert ($("#username").val());
             let username =$("#username").val();
-            let url = `https://cst336.herokuapp.com/projects/api/usernamesAPI.php?username=${username}`;
-            let response = await fetch(url);
-            let data = await response.json();
+            let usernameAvailable = false;
+            let urld = `https://cst336.herokuapp.com/projects/api/usernamesAPI.php?username=${username}`;
+            let responsed = await fetch(urld);
+            let datad = await responsed.json();
             
-            if (data.available) {
+            if (datad.available) {
                 $("#usernameError").html("Username available!");
                 $("#usernameError").css("color","green");
                 usernameAvailable = true;
@@ -112,50 +128,69 @@
                 $("#usernameError").css("color","red");
                 usernameAvailable = false;
             }
+              
+            return usernameAvailable;
             
         }); // username
         
-        $("#signupForm").on("submit", function(e){
-            // alert(usernameAvailable);
-            if (!isFormValid()) {
-                e.preventDefault();
-            }
+        
+         $("#password").on("change", async function(){
+        	password = $("#password").val();
             
+         	if (password.length < 6 ){
+                alert("Error: Password must contain at least six characters!");
+            	 isValid = false;
+             }
+        	
         });
         
-        function isFormValid(){
-            var isValid = true;
-            if (!usernameAvailable) {
-                isValid = false;
-            }
-            
-            if ($("#username").val().length == 0) {
-                isValid = false;
-                $("#usernameError").html("Username is required");
-            }
-            
-            if ($("#password").val() != $("#passwordAgain").val()){
-                $("#passwordAgainError").html("Password Mismatch!"); 
-                isValid = false;
-            }
-            
-         if ($("#password").val.length < 6 ){
-                alert("Error: Password must contain at least six characters!");
-                form.passwordLength();
-                isValid = false;
-             }
-                
-            return isValid;
-        }
         
-         $("#signupForm").on("submit", function(event) {
+        $("#passwordAgain").on("change", async function(){
+             
+        	
+         	let passwordagain = $("#passwordAgain").val();
+         	
+            // console.log(passwordagain);
+           
+           
             
-            // alert("Submitting form...");
-            if (!isFormValid()) {
-             event.preventDefault();
+            if (password == passwordagain){
+                      isValid = true;
+           	}else{
+           		 $("#passwordAgainError").html("Password Mismatch!"); 
+                 isValid = false;
             }
+            
+           //  console.log("1" + isValid);
+           
+            
+           
+            
+         	if (password.length < 6 ){
+                alert("Error: Password must contain at least six characters!");
+            	 isValid = false;
+             }
+         //         console.log("2" + isValid);
+           
+            
+           
+            	
+            });
+              
+			$("#signupForm").on("submit", function(event) {
+           		///var what = isValid;
+        		
+            // alert("Submitting form...");
+            if (isValid == false) {
+             	event.preventDefault();
+            }
+            console.log("3" + isValid);
+            
             
         }); // signup form
+        
+        
+        
         
     </script>
     
