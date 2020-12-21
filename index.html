@@ -36,6 +36,8 @@
         Password:         <input type="password" id="password" name="password"><br>
                           <span id="usernameError"></span><br>
         Password Again:   <input type="password" id="passwordAgain">
+                          <span id="passwordAgainError"></span> <br /><br>
+                          
         
         <input type="submit" value="Sign Up!">
     
@@ -95,7 +97,7 @@
             
         }); // username
         
-        $("#signupForm").on("submit", function(e) {
+        $("#signupForm").on("submit", function(e){
             // alert(usernameAvailable);
             if (!isFormValid()) {
                 e.preventDefault();
@@ -104,17 +106,38 @@
         });
         
         function isFormValid(){
-            isValid = true;
+            var isValid = true;
             if (!usernameAvailable) {
                 isValid = false;
             }
+            
+            if ($("#username").val().length == 0) {
+                isValid = false;
+                $("#usernameError").html("Username is required");
+            }
+            
+            if ($("#password").val() != $("#passwordAgain").val()){
+                $("#passwordAgainError").html("Password Mismatch!"); 
+                isValid = false;
+            }
+            
+           // if ($("#passwordLength").val > 6) {
+                // alert("Error: Password must contain at least six characters!");
+                // form.passwordLength();
+                // return false;
+                // }
+                
             return isValid;
         }
+        
+         $("#signupForm").on("submit", function(event) {
             
-            alert("Submitting form...");
+            // alert("Submitting form...");
+            if (!isFormValid()) {
              event.preventDefault();
+            }
             
-        });
+        }); // signup form
         
     </script>
     
