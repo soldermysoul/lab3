@@ -55,6 +55,20 @@
             
         }); // zip
         
+        $("#state").on("change", async function(){
+            
+            // alert($("#state").val());
+            let state = $("#state").val();
+            let url = `https://itcdland.csumb.edu/~milara/ajax/countyList.php?state=${state}`;
+            let response = await fetch(url);
+            let data = await response.json();
+            // console.log(data)
+            for (let i=0; i < data.length; i++) {
+                $("#county").append(`<option> ${data[i].county} </option>`);
+            }
+            
+        }); // state
+        
     </script>
     
     </body>
