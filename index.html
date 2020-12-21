@@ -1,49 +1,65 @@
 <!DOCTYPE html>
 <html>
-    
-    <head>
-        <title> Sign Up Page </title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js%22%3E"></script>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">"
-    </head>
-    
-    <body>
-        
-        <h1> Sign Up </h1>
-        
-    <form id="signupForm" action="welcome.html">   
-        First Name: <input type="text"  name="fName"><br>
-        Last Name:  <input type="text"  name="lName"><br>
-        Gender:     <input type="radio" name="gender" value="m"> Male<br>
-                    <input type="radio" name="gender" value="f"> Female<br>
-        
-        Zip Code:   <input type="text"  id="zip" name="zip"><br>
-        City:       <span id="city"></span><br>
-        Latitude:   <span id="latitude"></span><br>
-        Longitude:  <span id="longitude"></span><br>
-        
-        State:
-        <select id="state" name="state">
-            <option> Select One </option>
-            <option value="ca"> California </option>
-            <option value="ny"> New York   </option>
-            <option value="tx"> Texas      </option>
-        </select><br>
-        
-        Select a County: <select id="county"></select><br>
-        
-        Desired Username: <input type="text" id="username" name="username"><br>
-        
-        Password:         <input type="password" id="password" name="password"><br>
-                          <span id="usernameError"></span><br>
-        Password Again:   <input type="password" id="passwordAgain">
-                          <span id="passwordAgainError"></span> <br /><br>
-                          
-        
-        <input type="submit" value="Sign Up!">
-    
-    </form>  
-      
+
+<head>
+<title> Sign Up Page </title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class=row>
+<div class="col-md-6 offset-md-3"">
+<div class="card border-dark">
+<div class="card-header border-info text-white bg-info">
+<b>Signup Form</b>
+</div>
+<div class="card-body border-dark text-left">
+
+
+
+
+
+								<h1> Sign Up </h1>
+							<form id="signupForm" action="welcome.html">   
+								First Name: <input type="text"  name="fName"><br>
+								Last Name:  <input type="text"  name="lName"><br>
+								Gender:     <input type="radio" name="gender" value="m"> Male<br>
+											<input type="radio" name="gender" value="f"> Female<br>
+		
+								Zip Code:   <input type="text"  id="zip" name="zip"><br>
+								City:       <span id="city"></span><br>
+								Latitude:   <span id="latitude"></span><br>
+								Longitude:  <span id="longitude"></span><br>
+		
+								State:
+								<select id="state" name="state">
+									<option> Select One </option>
+									<option value="ca"> California </option>
+									<option value="ny"> New York   </option>
+									<option value="tx"> Texas      </option>
+								</select><br>
+		
+								Select a County: <select id="county"></select><br>
+		
+								Desired Username: <input type="text" id="username" name="username"><br>
+		
+								Password:         <input type="password" id="password" name="password"><br>
+												  <span id="usernameError"></span><br>
+								Password Again:   <input type="password" id="passwordAgain">
+												  <span id="passwordAgainError"></span> <br /><br>
+						  
+		
+<input type="submit" class="btn btn-lg btn-info" value="Sign Up!">
+	
+</form>  
+</div>
+
+</div>   
+
+</div>
+</div>
+
     <script>
     
         var usernameAvailable = false;
@@ -122,11 +138,11 @@
                 isValid = false;
             }
             
-           if ($("#password").val.length > 6) {
-                alert("Error: Password must contain at least six characters!");
-                form.passwordLength();
-                return false;
-                }
+         if ($("#password").val.length < 6 ){
+                 alert("Error: Password must contain at least six characters!");
+                 form.passwordLength();
+                 return false;
+             }
                 
             return isValid;
         }
