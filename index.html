@@ -83,6 +83,13 @@
             
             // alert($("#state").val());
             let state = $("#state").val();
+            let url = `https://cst336.herokuapp.com/projects/api/state_abbrAPI.php?state=${state}`;
+            let response = await fetch(url);
+            let data = await response.json();
+             $("#state").html("<option> Select One </option>");
+            data.forEach ( function(i) {
+                $("#state").append(`<option> ${i.state} </option>`);
+                
             let url = `https://itcdland.csumb.edu/~milara/ajax/countyList.php?state=${state}`;
             let response = await fetch(url);
             let data = await response.json();
